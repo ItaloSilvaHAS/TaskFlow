@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Gerencie seus Projetos com Facilidade</title>
+    <meta name="description" content="TaskFlow é a plataforma perfeita para gerenciar seus projetos e tarefas de forma simples e eficiente.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="goHome()">
+                <span class="logo-icon">📋</span>
+                <span class="logo-text">TaskFlow</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <div class="nav-links" id="navLinksHome">
+                    <a href="#features" class="nav-link">Recursos</a>
+                    <a href="#benefits" class="nav-link">Benefícios</a>
+                    <a href="#cta" class="nav-link">Começar</a>
+                </div>
+                <div class="nav-auth" id="navAuthButtons">
+                    <button class="btn btn-ghost" onclick="showAuth('login')">Entrar</button>
+                    <button class="btn btn-primary" onclick="showAuth('signup')">Cadastrar</button>
+                </div>
+                <div class="nav-user" id="navUserMenu" style="display: none;">
+                    <div class="nav-avatar" id="navAvatar" onclick="toggleProfileMenu()"></div>
+                    <span class="user-greeting" id="navUserName">Usuário</span>
+                    <button class="btn btn-ghost btn-sm" onclick="handleLogout()">Sair</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="homeArea">
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <span class="hero-badge">🚀 Colaboração em tempo real</span>
+                    <h1 class="hero-title">Gerencie seus <span class="gradient-text">projetos</span> com facilidade</h1>
+                    <p class="hero-subtitle">TaskFlow é a ferramenta perfeita para organizar suas tarefas, colaborar com sua equipe e aumentar sua produtividade.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="showAuth('signup')">Começar Grátis <span class="btn-arrow">→</span></button>
+                        <button class="btn btn-outline btn-lg" onclick="showAuth('login')">Já tenho conta</button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat"><span class="stat-number">10k+</span><span class="stat-label">Usuários</span></div>
+                        <div class="stat"><span class="stat-number">50k+</span><span class="stat-label">Projetos</span></div>
+                        <div class="stat"><span class="stat-number">99%</span><span class="stat-label">Satisfação</span></div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <div class="card-header">
+                            <div class="card-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+                            <span class="card-title">Meus Projetos</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="task-item completed"><span class="task-check">✓</span><span class="task-text">Criar wireframes</span></div>
+                            <div class="task-item completed"><span class="task-check">✓</span><span class="task-text">Definir cores</span></div>
+                            <div class="task-item active"><span class="task-check"></span><span class="task-text">Desenvolver frontend</span></div>
+                            <div class="task-item"><span class="task-check"></span><span class="task-text">Integrar backend</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">Recursos</span>
+                    <h2 class="section-title">Tudo para ser produtivo</h2>
+                    <p class="section-subtitle">Ferramentas poderosas para projetos de qualquer tamanho</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card"><div class="feature-icon">📊</div><h3 class="feature-title">Gestão de Projetos</h3><p class="feature-text">Crie e organize projetos com facilidade. Acompanhe o progresso.</p></div>
+                    <div class="feature-card"><div class="feature-icon">✅</div><h3 class="feature-title">Tarefas Inteligentes</h3><p class="feature-text">Defina prioridades e prazos. Nunca esqueça uma entrega.</p></div>
+                    <div class="feature-card"><div class="feature-icon">👥</div><h3 class="feature-title">Colaboração</h3><p class="feature-text">Convide membros e trabalhe em equipe em tempo real.</p></div>
+                    <div class="feature-card"><div class="feature-icon">📱</div><h3 class="feature-title">Responsivo</h3><p class="feature-text">Funciona em celular, tablet ou desktop.</p></div>
+                    <div class="feature-card"><div class="feature-icon">🔒</div><h3 class="feature-title">Seguro</h3><p class="feature-text">Dados protegidos com criptografia.</p></div>
+                    <div class="feature-card"><div class="feature-icon">⚡</div><h3 class="feature-title">Rápido</h3><p class="feature-text">Interface otimizada para velocidade.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="benefits" id="benefits">
+            <div class="section-container">
+                <div class="benefits-content">
+                    <div class="benefits-text">
+                        <span class="section-badge">Por que TaskFlow?</span>
+                        <h2 class="section-title">Aumente sua produtividade em 40%</h2>
+                        <p class="section-subtitle">Melhoria significativa na organização e entrega de projetos.</p>
+                        <ul class="benefits-list">
+                            <li class="benefit-item"><span class="benefit-check">✓</span><span>Interface intuitiva</span></li>
+                            <li class="benefit-item"><span class="benefit-check">✓</span><span>Configuração em 2 minutos</span></li>
+                            <li class="benefit-item"><span class="benefit-check">✓</span><span>Convide por ID único</span></li>
+                            <li class="benefit-item"><span class="benefit-check">✓</span><span>Grátis para sempre</span></li>
+                        </ul>
+                    </div>
+                    <div class="benefits-image">
+                        <div class="testimonial-card">
+                            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                            <p class="testimonial-text">"TaskFlow transformou nossa equipe. Tudo organizado em um só lugar."</p>
+                            <div class="testimonial-author">
+                                <div class="author-avatar">MC</div>
+                                <div class="author-info"><span class="author-name">Maria Clara</span><span class="author-role">Gerente de Projetos</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta" id="cta">
+            <div class="section-container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Pronto para começar?</h2>
+                    <p class="cta-subtitle">Junte-se a milhares organizando projetos com TaskFlow.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-white btn-lg" onclick="showAuth('signup')">Criar Conta Grátis <span class="btn-arrow">→</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-brand"><span class="logo-icon">📋</span><span class="logo-text">TaskFlow</span></div>
+                <p class="footer-text">© 2024 TaskFlow. Desenvolvido por Italo S. Santos.</p>
+            </div>
+        </footer>
+    </main>
+
+    <section id="authArea" class="auth-section" style="display: none;">
+        <div class="auth-container">
+            <div class="auth-card">
+                <button class="auth-back" onclick="goHome()">← Voltar</button>
+                <div id="loginForm" class="auth-form">
+                    <div class="auth-header">
+                        <span class="auth-icon">👋</span>
+                        <h2 class="auth-title">Bem-vindo de volta!</h2>
+                        <p class="auth-subtitle">Entre na sua conta</p>
+                    </div>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" placeholder="seu@email.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Senha</label>
+                            <input type="password" id="loginPassword" placeholder="Sua senha" required autocomplete="current-password">
+                        </div>
+                        <div id="loginError" class="form-error" style="display: none;"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                            <span class="btn-text">Entrar</span>
+                            <span class="btn-loader" style="display: none;"></span>
+                        </button>
+                    </form>
+                    <div class="auth-switch"><span>Não tem conta?</span><button class="link-btn" onclick="switchAuthForm('signup')">Cadastre-se</button></div>
+                </div>
+                <div id="signupForm" class="auth-form" style="display: none;">
+                    <div class="auth-header">
+                        <span class="auth-icon">🚀</span>
+                        <h2 class="auth-title">Crie sua conta</h2>
+                        <p class="auth-subtitle">Comece a organizar seus projetos</p>
+                    </div>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label for="signupName">Nome completo</label>
+                            <input type="text" id="signupName" placeholder="Seu nome" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email</label>
+                            <input type="email" id="signupEmail" placeholder="seu@email.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Senha</label>
+                            <input type="password" id="signupPassword" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password">
+                        </div>
+                        <div id="signupError" class="form-error" style="display: none;"></div>
+                        <div id="signupSuccess" class="form-success" style="display: none;"></div>
+                        <button type="submit" class="btn btn-primary btn-block" id="signupBtn">
+                            <span class="btn-text">Criar Conta</span>
+                            <span class="btn-loader" style="display: none;"></span>
+                        </button>
+                    </form>
+                    <div class="auth-switch"><span>Já tem conta?</span><button class="link-btn" onclick="switchAuthForm('login')">Entrar</button></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboardArea" class="dashboard-section" style="display: none;">
+        <div class="dashboard-layout">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="profile-section">
+                        <div class="profile-avatar-wrapper">
+                            <div class="profile-avatar" id="profileAvatar"></div>
+                            <label class="avatar-upload" for="avatarInput" title="Alterar foto">
+                                <input type="file" id="avatarInput" accept="image/*" onchange="handleAvatarUpload(event)">
+                                <span>📷</span>
+                            </label>
+                        </div>
+                        <div class="profile-info">
+                            <h3 class="profile-name" id="profileName">Usuário</h3>
+                            <p class="profile-email" id="profileEmail">email@exemplo.com</p>
+                        </div>
+                    </div>
+                    <div class="user-id-section">
+                        <label>Seu ID (compartilhe para convites)</label>
+                        <div class="user-id-box">
+                            <code id="userIdDisplay">...</code>
+                            <button class="btn-icon" onclick="copyUserId()" title="Copiar ID">📋</button>
+                        </div>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" onclick="showSection('projects')" data-section="projects">
+                        <span class="nav-icon">📁</span>
+                        <span>Projetos</span>
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <button class="btn btn-ghost btn-block" onclick="handleLogout()">Sair</button>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <header class="content-header">
+                    <div class="header-left">
+                        <button class="btn-icon sidebar-toggle" onclick="toggleSidebar()">☰</button>
+                        <h1 class="page-title" id="pageTitle">Meus Projetos</h1>
+                    </div>
+                    <div class="header-right">
+                        <button class="btn btn-primary" onclick="openProjectModal()">+ Novo Projeto</button>
+                    </div>
+                </header>
+
+                <div class="content-body">
+                    <section id="projectsSection" class="content-section">
+                        <div class="stats-row">
+                            <div class="stat-card"><div class="stat-icon">📁</div><div class="stat-info"><span class="stat-value" id="statProjects">0</span><span class="stat-label">Projetos</span></div></div>
+                            <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-info"><span class="stat-value" id="statTasks">0</span><span class="stat-label">Tarefas</span></div></div>
+                            <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-info"><span class="stat-value" id="statMembers">0</span><span class="stat-label">Colaboradores</span></div></div>
+                        </div>
+                        <div class="projects-grid" id="projectsGrid"></div>
+                        <div class="empty-state" id="emptyProjects">
+                            <div class="empty-icon">📋</div>
+                            <h3>Nenhum projeto ainda</h3>
+                            <p>Crie seu primeiro projeto para começar</p>
+                            <button class="btn btn-primary" onclick="openProjectModal()">+ Criar Projeto</button>
+                        </div>
+                    </section>
+
+                    <section id="projectDetailSection" class="content-section" style="display: none;">
+                        <div class="project-header">
+                            <button class="btn btn-ghost" onclick="backToProjects()">← Voltar</button>
+                            <div class="project-actions">
+                                <button class="btn btn-ghost" onclick="openMembersModal()">👥 Membros</button>
+                                <button class="btn btn-ghost" onclick="openEditProjectModal()">✏️ Editar</button>
+                                <button class="btn btn-danger" onclick="confirmDeleteProject()">🗑️ Excluir</button>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h2 class="project-title" id="currentProjectName">Projeto</h2>
+                            <p class="project-description" id="currentProjectDesc">Descrição</p>
+                        </div>
+                        <div class="tasks-header">
+                            <h3>Tarefas</h3>
+                            <button class="btn btn-primary btn-sm" onclick="openTaskModal()">+ Nova Tarefa</button>
+                        </div>
+                        <div class="tasks-board">
+                            <div class="task-column" data-status="todo">
+                                <div class="column-header"><span class="column-title">A Fazer</span><span class="column-count" id="countTodo">0</span></div>
+                                <div class="task-list" id="tasksTodo"></div>
+                            </div>
+                            <div class="task-column" data-status="in_progress">
+                                <div class="column-header"><span class="column-title">Em Progresso</span><span class="column-count" id="countProgress">0</span></div>
+                                <div class="task-list" id="tasksProgress"></div>
+                            </div>
+                            <div class="task-column" data-status="review">
+                                <div class="column-header"><span class="column-title">Revisão</span><span class="column-count" id="countReview">0</span></div>
+                                <div class="task-list" id="tasksReview"></div>
+                            </div>
+                            <div class="task-column" data-status="done">
+                                <div class="column-header"><span class="column-title">Concluído</span><span class="column-count" id="countDone">0</span></div>
+                                <div class="task-list" id="tasksDone"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeAllModals()"></div>
+
+    <div class="modal" id="projectModal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="projectModalTitle">Novo Projeto</h3>
+            <button class="modal-close" onclick="closeProjectModal()">×</button>
+        </div>
+        <form onsubmit="handleProjectSubmit(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="projectName">Nome do Projeto *</label>
+                    <input type="text" id="projectName" placeholder="Ex: Website Redesign" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectDesc">Descrição</label>
+                    <textarea id="projectDesc" placeholder="Descreva o projeto..." rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectColor">Cor</label>
+                    <div class="color-picker">
+                        <input type="color" id="projectColor" value="#6366f1">
+                        <span class="color-preview" id="colorPreview"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" onclick="closeProjectModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="projectSubmitBtn">Criar Projeto</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" id="taskModal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="taskModalTitle">Nova Tarefa</h3>
+            <button class="modal-close" onclick="closeTaskModal()">×</button>
+        </div>
+        <form onsubmit="handleTaskSubmit(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="taskTitle">Título *</label>
+                    <input type="text" id="taskTitle" placeholder="Ex: Criar homepage" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDesc">Descrição</label>
+                    <textarea id="taskDesc" placeholder="Detalhes da tarefa..." rows="2"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskStatus">Status</label>
+                        <select id="taskStatus">
+                            <option value="todo">A Fazer</option>
+                            <option value="in_progress">Em Progresso</option>
+                            <option value="review">Revisão</option>
+                            <option value="done">Concluído</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskPriority">Prioridade</label>
+                        <select id="taskPriority">
+                            <option value="low">Baixa</option>
+                            <option value="medium" selected>Média</option>
+                            <option value="high">Alta</option>
+                            <option value="urgent">Urgente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskDue">Data de Entrega</label>
+                        <input type="date" id="taskDue">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskAssignee">Responsável</label>
+                        <select id="taskAssignee">
+                            <option value="">Ninguém</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ghost" onclick="closeTaskModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="taskSubmitBtn">Criar Tarefa</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" id="membersModal">
+        <div class="modal-header">
+            <h3 class="modal-title">Membros do Projeto</h3>
+            <button class="modal-close" onclick="closeMembersModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="invite-section">
+                <h4>Convidar Membro</h4>
+                <p class="invite-help">Cole o User ID da pessoa que deseja convidar</p>
+                <div class="invite-form">
+                    <input type="text" id="inviteUserId" placeholder="Cole o User ID aqui">
+                    <button class="btn btn-primary" onclick="inviteMember()">Convidar</button>
+                </div>
+                <div id="inviteError" class="form-error" style="display: none;"></div>
+                <div id="inviteSuccess" class="form-success" style="display: none;"></div>
+            </div>
+            <div class="members-list-section">
+                <h4>Membros Atuais</h4>
+                <div class="members-list" id="membersList"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeMembersModal()">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal modal-sm" id="confirmModal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="confirmTitle">Confirmar</h3>
+            <button class="modal-close" onclick="closeConfirmModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <p id="confirmMessage">Tem certeza?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeConfirmModal()">Cancelar</button>
+            <button class="btn btn-danger" id="confirmBtn" onclick="confirmAction()">Confirmar</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <div id="loadingOverlay" class="loading-overlay"><div class="loading-spinner"></div></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
